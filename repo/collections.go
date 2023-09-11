@@ -10,13 +10,12 @@ func SetRatingForAttraction(attraction string) {
 	//`insert into Attractions value (rating) where Attraction name = $`,attraction
 }
 
-func (c City) AddCity(title string, rating int) {
+func (c City) AddCity(title string) {
 	city := &City{}
 	city.Title = title
-	city.Rating = rating
 	result, err := db.Db.Exec(`insert into City (
-      Title,Rating) values (?,?)`,
-		city.Title, city.Rating)
+      Title) values (?)`,
+		city.Title)
 	if err != nil {
 		fmt.Println("cant insert data to dbase")
 		panic(err)
@@ -56,8 +55,8 @@ func (t Traveler) AddTraveler(name string, date Date) {
 
 func (a Attraction) AddAttraction() {
 	result, err := db.Db.Exec(`insert into Attraction (
-                        traveler_id,city_id,Title,RangeFromCenter,Description,Rating) values (?,?,?,?,?,?)`,
-		a.Traveler.ID, a.City.ID, a.Title, a.RangeFromCenter, a.Description, a.Rating)
+                        traveler_id,city_id,Title,RangeFromCenter,Rating) values (1,?,?,?,?)`,
+		a.City.ID, a.Title, a.RangeFromCenter, a.Rating)
 	fmt.Println("traveler.ID, city.ID", a.Traveler.ID, a.City.ID)
 	if err != nil {
 		fmt.Println("cant insert data to dbase")

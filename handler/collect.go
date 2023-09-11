@@ -11,13 +11,8 @@ import (
 func AddCity(w http.ResponseWriter, r *http.Request) {
 	city := &repo.City{}
 	title := r.FormValue("title")
-	rating, _ := strconv.Atoi(r.FormValue("rating"))
-	if rating > 5 || rating <= 0 {
-		w.Write([]byte("rating must be between 1 and 5"))
-		return
-	}
-	city.AddCity(title, rating)
-	fmt.Println("title, rating: ", title, rating)
+	city.AddCity(title)
+	fmt.Println("title, rating: ", title)
 }
 
 func AddTraveler(w http.ResponseWriter, r *http.Request) {
@@ -47,7 +42,6 @@ func AddAttraction(w http.ResponseWriter, r *http.Request) {
 		traveler.Name = r.FormValue("traveler")
 		attraction.City.Title = r.FormValue("city")
 		attraction.RangeFromCenter = r.FormValue("range")
-		attraction.Description = r.FormValue("description")
 		attraction.Rating = r.FormValue("rating")
 		attraction.AddAttraction()
 		fmt.Println(attraction.Title)
@@ -57,7 +51,6 @@ func AddAttraction(w http.ResponseWriter, r *http.Request) {
 
 func SetRating(w http.ResponseWriter, r *http.Request) {
 	//traveler := r.FormValue("traveler_name")
-
 	//setRating := r.FormValue("set_rating")
 	//SetRatingForAttraction()
 }

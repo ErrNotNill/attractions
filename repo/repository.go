@@ -20,7 +20,7 @@ FROM
 	for qry.Next() {
 		if err := qry.Scan(&attraction.ID, &attraction.Traveler,
 			&attraction.City.ID, &attraction.Title, &attraction.RangeFromCenter,
-			&attraction.Description, &attraction.Rating,
+			&attraction.Rating,
 		); err != nil {
 			fmt.Println(`error scan`)
 		}
@@ -67,7 +67,7 @@ func (a Attraction) GetAllAttractions() []byte {
 	//traveler_id,city_id,Title,RangeFromCenter,Description,Rating
 	//fmt.Println("a.getAllAttractionsByCity()", a.getAllAttractionsByCity())
 	qry, err := db.Db.Query(`SELECT ID,traveler_id,city_id,Title,RangeFromCenter,
-       Description,Rating
+       Rating
        FROM Attraction`)
 	if err != nil {
 		fmt.Println(`error query`)
@@ -75,8 +75,8 @@ func (a Attraction) GetAllAttractions() []byte {
 	attraction := Attraction{}
 	var attractions []Attraction
 	for qry.Next() {
-		if err := qry.Scan(&attraction.ID, &attraction.Traveler.ID, &attraction.City.ID, &attraction.Title, &attraction.RangeFromCenter,
-			&attraction.Description, &attraction.Rating,
+		if err := qry.Scan(&attraction.ID, &attraction.Traveler.ID, &attraction.City.ID,
+			&attraction.Title, &attraction.RangeFromCenter, &attraction.Rating,
 		); err != nil {
 			fmt.Println(`error scan`)
 		}
@@ -120,13 +120,13 @@ func GetRatingFromAttraction(attraction string) int {
 
 func GetAttractionsByTraveler(traveler Traveler) ([]Attraction, error) {
 	Attractions := make([]Attraction, 0)
-	qry, err := db.Db.Query(`select * from Attractions where traveler = $`, traveler.Name)
+	qry, err := db.Db.Query(`select * from Attraction where traveler = $`, traveler.Name)
 	if err != nil {
 		return nil, err
 	}
 	var attractions Attraction
 	for qry.Next() {
-		err := qry.Scan(&attractions.Title, &attractions.RangeFromCenter, &attractions.Description, &attractions.Rating)
+		err := qry.Scan(&attractions.Title, &attractions.RangeFromCenter, &attractions.Rating)
 		if err != nil {
 			return nil, err
 		}

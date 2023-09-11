@@ -12,14 +12,12 @@ type Attraction struct {
 	City            City     `json:"city,omitempty"`
 	Title           string   `json:"title,omitempty"`
 	RangeFromCenter string   `json:"range_from_center,omitempty"`
-	Description     string   `json:"description,omitempty"`
 	Rating          string   `json:"rating,omitempty"`
 }
 
 type City struct {
-	ID     int    `json:"id,omitempty"`
-	Title  string `json:"title,omitempty"`
-	Rating int    `json:"rating,omitempty"`
+	ID    int    `json:"id,omitempty"`
+	Title string `json:"title,omitempty"`
 }
 
 type Traveler struct {
