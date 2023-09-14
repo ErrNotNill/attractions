@@ -1,34 +1,28 @@
 package repo
 
-type Data struct {
-	Attraction Attraction
-	City       City
-	Traveler   Traveler
+type Sight struct {
+	SightID  int    `json:"sight_id,omitempty"`
+	Title    string `json:"title,omitempty"`
+	Distance string `json:"distance,omitempty"`
 }
-
-type Attraction struct {
-	ID              int      `json:"attraction_id,omitempty"`
-	Traveler        Traveler `json:"traveler,omitempty"`
-	City            City     `json:"city,omitempty"`
-	Title           string   `json:"title,omitempty"`
-	RangeFromCenter string   `json:"range_from_center,omitempty"`
-	Rating          string   `json:"rating,omitempty"`
-}
-
 type City struct {
-	ID    int    `json:"id,omitempty"`
-	Title string `json:"title,omitempty"`
+	CityID int    `json:"cityID"`
+	Name   string `json:"title,omitempty"`
 }
-
 type Traveler struct {
-	ID          int    `json:"id,omitempty"`
-	Name        string `json:"name,omitempty"`
-	TimeStarted string `json:"timeStarted,omitempty"`
-	TimeEnded   string `json:"timeEnded,omitempty"`
+	TravelerID int    `json:"traveler_id,omitempty"`
+	Name       string `json:"name,omitempty"`
 }
-
-type TravelerProfile struct {
-	Attraction  []*Attraction `json:"attraction,omitempty"`
-	TimeStarted string        `json:"time_started,omitempty"`
-	TimeEnded   string        `json:"time_end,omitempty"`
+type Visit struct {
+	VisitID    int      `json:"visit_id,omitempty"`
+	SightID    Sight    `json:"sight_id"`
+	TravelerID Traveler `json:"traveler_id"`
+	VisitDate  Date     `json:"visit_date"`
+	Rating     int      `json:"rating,omitempty"`
+}
+type Rating struct {
+	RatingID    int      `json:"rating_id,omitempty"`
+	SightID     Sight    `json:"sight_id"`
+	TravelerID  Traveler `json:"traveler_id"`
+	RatingValue int      `json:"rating_value,omitempty"`
 }

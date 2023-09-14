@@ -3,19 +3,27 @@ package repo
 import (
 	"attractions/db"
 	"fmt"
-	"time"
 )
 
 func SetRatingForAttraction(attraction string) {
 	//`insert into Attractions value (rating) where Attraction name = $`,attraction
 }
 
-func (c City) AddCity(title string) {
-	city := &City{}
-	city.Title = title
-	result, err := db.Db.Exec(`insert into City (
-      Title) values (?)`,
-		city.Title)
+func AddRating(rating int) {
+	//SightID, TravelerID, RatingValue
+	sights := GetSight()
+	var sightID int
+	for _, v := range sights {
+		sightID = v.SightID
+	}
+	var travelerID int
+	travelers := GetTraveler()
+	for _, v := range travelers {
+		travelerID = v.TravelerID
+	}
+	result, err := db.Db.Exec(`insert into Rating (SightID, TravelerID, RatingValue
+      ) values (?,?,?)`,
+		&sightID, &travelerID, &rating)
 	if err != nil {
 		fmt.Println("cant insert data to dbase")
 		panic(err)
@@ -24,7 +32,80 @@ func (c City) AddCity(title string) {
 	fmt.Println(result.RowsAffected())
 }
 
-func (t Traveler) AddTraveler(name string, date Date) {
+func AddCity() {
+	city := &City{}
+	//TravelerID,SightID,CityID
+	result, err := db.Db.Exec(`insert into City (Name
+     ) values (?)`,
+		&city.Name)
+	if err != nil {
+		fmt.Println("cant insert data to dbase")
+		panic(err)
+	}
+	fmt.Println("rows inserted")
+	fmt.Println(result.RowsAffected())
+}
+
+func AddSightInCity() {
+	sight := &Sight{}
+	cities := GetCity()
+	for _, city := range cities {
+		fmt.Println(city.CityID)
+	}
+	result, err := db.Db.Exec(`insert into Sight (CityID
+      ) values (?)`,
+		sight.SightID)
+	if err != nil {
+		fmt.Println("cant insert data to dbase")
+		panic(err)
+	}
+	fmt.Println("rows inserted")
+	fmt.Println(result.RowsAffected())
+}
+
+func AddSightByTraveler(travelerId int) {
+	TravelerID := GetTraveler()
+	var travelers []int
+	for _, v := range TravelerID {
+		travelers = append(travelers, v.TravelerID)
+	}
+	fmt.Println(travelers)
+
+	cityID := GetCity()
+	fmt.Println("cityID in AddSightByTraveler: ", cityID)
+	//`insert into Sight Title, Distance, CityID
+	/*sight := &Sight{}
+		city.Title = title
+		result, err := db.Db.Exec(`insert into City (
+	      Title) values (?)`,
+			city.Title)
+		if err != nil {
+			fmt.Println("cant insert data to dbase")
+			panic(err)
+		}
+		fmt.Println("rows inserted")
+		fmt.Println(result.RowsAffected())*/
+}
+
+/*func AddRating(rating int) {
+	if rating < 0 || rating > 5 {
+		fmt.Println("Rating cannot be negative or greater than 5")
+		return
+	}
+	SightID := GetSight
+	TravelerID := GetTraveler
+
+	result, err := db.Db.Exec(`insert into Rating (
+      SightID, TravelerID, RatingValue) values (?,?,?)`,
+		traveler.Name, traveler.TimeStarted, rating)
+	if err != nil {
+		fmt.Println("cant insert data to dbase")
+		panic(err)
+	}
+
+}*/
+
+/*func (t Traveler) AddTraveler(name string, date Date) {
 	traveler := &Traveler{}
 	timeNow := time.Now()
 	timeStart := fmt.Sprintf("%d-%02d-%02d %02d:%02d:%02d",
@@ -51,9 +132,9 @@ func (t Traveler) AddTraveler(name string, date Date) {
 	}
 	fmt.Println("rows inserted")
 	fmt.Println(result.RowsAffected())
-}
+}*/
 
-func (a Attraction) AddAttraction() {
+/*func (a Attraction) AddAttraction() {
 	result, err := db.Db.Exec(`insert into Attraction (
                         traveler_id,city_id,Title,RangeFromCenter,Rating) values (1,?,?,?,?)`,
 		a.City.ID, a.Title, a.RangeFromCenter, a.Rating)
@@ -64,7 +145,7 @@ func (a Attraction) AddAttraction() {
 	}
 	fmt.Println("rows inserted")
 	fmt.Println(result.RowsAffected())
-}
+}*/
 
 type Date struct {
 	Year   int

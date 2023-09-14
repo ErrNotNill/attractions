@@ -1,14 +1,6 @@
 package handler
 
-import (
-	"attractions/repo"
-	"fmt"
-	"io"
-	"net/http"
-	"strconv"
-)
-
-func AddCity(w http.ResponseWriter, r *http.Request) {
+/*func AddCity(w http.ResponseWriter, r *http.Request) {
 	city := &repo.City{}
 	title := r.FormValue("title")
 	city.AddCity(title)
@@ -53,4 +45,4 @@ func SetRating(w http.ResponseWriter, r *http.Request) {
 	//traveler := r.FormValue("traveler_name")
 	//setRating := r.FormValue("set_rating")
 	//SetRatingForAttraction()
-}
+}*/

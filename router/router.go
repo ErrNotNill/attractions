@@ -7,10 +7,8 @@ import (
 
 func Router() {
 	http.HandleFunc("/", handler.Template)
-	http.HandleFunc("/set_rating", handler.SetRating)
-	http.HandleFunc("/attr_by_traveler", handler.GetAttractionsByTraveller)
-	http.HandleFunc("/add_attract", handler.AddAttraction)
-	http.HandleFunc("/attracts", handler.GetAttractions)
-	http.HandleFunc("/add_traveler", handler.AddTraveler)
-	http.HandleFunc("/add_city", handler.AddCity)
+	http.HandleFunc("/get_city", handler.GetCities)
+	http.HandleFunc("/get_travelers", handler.GetTravelers)
+	http.HandleFunc("/get_sight", handler.GetSight)
+	http.HandleFunc("/add_sight", handler.AddSightByTraveler)
 }

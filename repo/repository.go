@@ -2,11 +2,72 @@ package repo
 
 import (
 	"attractions/db"
-	"encoding/json"
 	"fmt"
 )
 
-func (a Attraction) GetAttractionsByCity() []Attraction {
+func GetCity() []City {
+	//return GetCity
+	//return TravelerID //todo test data for travelers
+	qry, err := db.Db.Query(`SELECT CityID, Name
+       FROM City`)
+	if err != nil {
+		fmt.Println(`error query`)
+	}
+	city := City{}
+	var cities []City
+	for qry.Next() {
+		if err := qry.Scan(&city.CityID, &city.Name); err != nil {
+			fmt.Println(`error scan`)
+		}
+		cities = append(cities, city)
+		fmt.Println("city.CityID: ", city.CityID)
+		fmt.Println("city.Title: ", city.Name)
+	}
+	return cities
+}
+
+func GetTraveler() []Traveler {
+	//return TravelerID //todo test data for travelers
+	qry, err := db.Db.Query(`SELECT TravelerID, Name
+       FROM Traveler`)
+	if err != nil {
+		fmt.Println(`error query`)
+	}
+	traveler := Traveler{}
+	var travelers []Traveler
+	for qry.Next() {
+		if err := qry.Scan(&traveler.TravelerID, &traveler.Name); err != nil {
+			fmt.Println(`error scan`)
+		}
+		travelers = append(travelers, traveler)
+		fmt.Println("traveler.ID: ", traveler.TravelerID)
+		fmt.Println("traveler.Name: ", traveler.Name)
+	}
+	return travelers
+}
+
+func GetSight() []Sight {
+	//return TravelerID //todo test data for travelers
+	qry, err := db.Db.Query(`SELECT SightID, Title,Distance,CityID
+       FROM Sight LEFT JOIN City ON city.CityID = city.CityID`)
+	if err != nil {
+		fmt.Println(`error query`)
+	}
+	sight := Sight{}
+	var sights []Sight
+	for qry.Next() {
+		if err := qry.Scan(&sight.SightID, &sight.Title, &sight.Distance); err != nil {
+			fmt.Println(`error scan`)
+		}
+		sights = append(sights, sight)
+		fmt.Println("sight.SightID: ", sight.SightID)
+		fmt.Println("sight.Title: ", sight.Title)
+
+	}
+	return sights
+}
+
+/*func (a Attraction) GetAttractionsByCity() []Attraction {
 	qry, err := db.Db.Query(`SELECT
     Attraction.Title
 FROM
@@ -140,4 +201,4 @@ func GetAllAttractions() {
 	//       COALESCE(Name,''), COALESCE(Phone,''), COALESCE(DateCreate,''),
 	//       COALESCE(SourceId,''), COALESCE(SourceDescription,''), COALESCE(AssignedByLead,''), COALESCE(Email,''),
 	//       COALESCE(FormName,''
-}
+}*/
